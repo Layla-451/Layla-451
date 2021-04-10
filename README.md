@@ -1,5 +1,5 @@
 ### Hi there 👋
-
+I'm still struggling with connecting the files in my local computer to the github. I've now downloaded the github desktop and hoping that it will be simpler to yous.
 <!--
 **Layla-451/Layla-451** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
