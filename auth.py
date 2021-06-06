@@ -1,3 +1,4 @@
+import os
 import random
 import datetime
 
@@ -20,6 +21,7 @@ def init():
         init()
 
 def login():
+    readUserData()
     now = datetime.datetime.now()
     print(now.strftime('%b %d, %Y %I:%M %p'))
     print('***** Please login to your account *****')
@@ -30,6 +32,7 @@ def login():
     for accountNumber,userDetails in database.items():
         if(accountNumber == accountNumberFromUser):
             if(userDetails[3] == password):
+                authSession(accountNumber)
                 print('Welcome %s %s' % (database[accountNumber][0], database[accountNumber][1]))
                 bankOperation(accountNumber)
         
@@ -55,9 +58,11 @@ def register():
     print('you account number is %d' %accountNumber)
     print('Please keep this for your records')
 
+    saveUserData()
     login()
 
 def bankOperation(accountNumber):
+    saveUserData()
 
     selectedoption = int(input('What would you like to do? \n (0) Check Balance (1) Deposit \n (2) Withdraw (3) Logout \n (4) Report an Issue (5)Exit \n'))
     if(selectedoption == 0):
@@ -68,6 +73,7 @@ def bankOperation(accountNumber):
     elif(selectedoption == 2):
         withdrawalOperation(accountNumber)
     elif(selectedoption == 3):
+        os.remove("session.txt")
         login()
     elif(selectedoption == 4):
         issues = input('Please report any issues you have come across \n')
@@ -116,4 +122,30 @@ def generateAccountNumber():
     print('Generating Account Number')
     return random.randrange(1111111111,9999999999)
 
+def saveUserData():
+    global database
+    f = open("BBDatabase.txt", "w")
+    f.write(str(database))
+    f.close()
+    
+def readUserData():
+    global database
+    f=open('BBDatabase.txt', 'r')
+    ts = f.read()
+    f.close()
+    database = eval(ts)
+
+def authSession(accountNumber):
+    a=open("session.txt", "w")
+    a.write(str(accountNumber))
+    a.close()
+
+
+
+
+
+
+readUserData()
 init()
+
+
